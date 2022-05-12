@@ -112,12 +112,37 @@ export const TodoList = () => {
 	};
 
 	/*
+		EFF to compare two Tasks by their respective descriptions Strings.
+		- taskA: First Todo.
+		- taskB: Second Todo.
+	*/
+	const compareTasksByName = (taskA, taskB) => {
+		if (taskA.description < taskB.description){
+			return 1;
+		  } else if (taskA.description > taskB.description){
+			return -1;
+		  } else {
+			  return 0;
+		  }
+	};
+
+	/*
 		EFF to sort the task list so that non-finished tasks will be at the front.
 	*/
 	const sortTasksByDone = () => {
 		// Important new!
 		const newTodos = [...todos];
 		newTodos.sort(compareTasksByDone);
+		setTodos(newTodos);
+	};
+
+	/*
+		EFF to sort the task list alphabetically via their respective descriptions.
+	*/
+	const sortTasksByDescription = () => {
+		// Important new!
+		const newTodos = [...todos];
+		newTodos.sort(compareTasksByName);
 		setTodos(newTodos);
 	};
 
