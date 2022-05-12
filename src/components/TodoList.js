@@ -146,6 +146,18 @@ export const TodoList = () => {
 		setTodos(newTodos);
 	};
 
+	/*
+		EFF to remove all finished tasks from the list.
+	*/
+	const removeFinishedTasks = () => {
+		// Important new!
+		const newTodos = [...todos];
+		const justUnfinishedTodos = newTodos.filter(function(task) {
+			return !(task.done);
+		});
+		setTodos(justUnfinishedTodos);
+	};
+
 	// React specific way to perform side effects in react components.
 	useEffect(() => {
 
@@ -176,6 +188,7 @@ export const TodoList = () => {
 				<div id="metaButtons">
 					<button 
 						id="removeDone"
+						onClick={removeFinishedTasks}
 					>Alle fertigen Tasks entfernen</button>
 					<button 
 						id="sortDone"
