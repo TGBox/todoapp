@@ -8,6 +8,7 @@ export const TodoList = () => {
 	// Initializing of the count variable to see the amount of tasks in the list. Default value 0.
 	const [openCount, countOpenTodos] = useState(0);
 
+
 	// Initializing of the task array with usage of the local storage. If none is existent, use empty array.
 	const [todos, setTodos] = useState(() => {
 		console.log(localStorage.getItem("items"));
@@ -213,6 +214,7 @@ export const TodoList = () => {
 						}
 						onChange={changeText}
 					></input>
+					<input type="date" id="date"></input>
 					<input type="submit" value="Hinzufügen" onClick={submitTodo}></input>
 				</form>
 			</div>

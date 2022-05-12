@@ -84,3 +84,7 @@ input[type=submit] {
 #del {
   height: 30px;
 }
+
+#deadline {
+  display: inline-block;
+}

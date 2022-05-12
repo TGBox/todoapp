@@ -35,6 +35,9 @@ export const Todo = ({ description, done, onChangeTodo, onDeleteTodo, onPriority
 					id="up"
 					onClick={() => { onPriorityChange(index, true) }}
 				>↑</button>
+				<div 
+					id="deadline"
+				></div>
 			</div>
 		</div>
 	);
