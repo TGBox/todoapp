@@ -28,13 +28,15 @@ export const TodoList = () => {
 	const submitTodo = (e) => {
 		// Prevents the default page refresh behaviour.
 		e.preventDefault();
-		// Prevents adding of empty tasks and of too lenghty tasks.
-		if((textInput !== "") && (textInput.length <= 100)){
+		// Prevents adding of empty, too long or duplicate tasks.
+		if((textInput !== "") && (textInput.length <= 100) && (checkForDuplicate(textInput) === -1)){
 			// Important! Always create new data as to not change behaviour at other places. (Important new!)
 			const newTodos = [...todos, { description: textInput, done: false }];
 			setTodos(newTodos);
 		} else if(textInput.length > 100) {
 			alert("Die maximale Länge eines Todos ist 100 Zeichen.\nBitte versuche es erneut!");
+		} else if(checkForDuplicate(textInput) !== -1) {
+			alert("Das Todo steht bereits auf der Liste.\nDaher wurde es nicht hinzugefügt.");
 		}
 		setTextInput("");
 	};
@@ -77,6 +79,22 @@ export const TodoList = () => {
 		setTodos(newTodos);
 	};
 
+	/* 
+		EFF to check if a given task description is already part of our list.
+		Returns either the index of the element or -1 if it isn't part of the list.
+		- task: String description of the task.
+	*/
+	const checkForDuplicate = (task) => {
+		var index = -1;
+		for(var i = 0; i < todos.length; i++) {
+	    	if (todos[i].description === task) {
+            	index = i;
+	        	break;
+	    	}
+		}
+    	return index;
+	};
+
 	/*
 		EFF to compare two Tasks by their respective done states to sort them.
 		Will result in non-finished tasks being prioritised.
@@ -103,10 +121,13 @@ export const TodoList = () => {
 		setTodos(newTodos);
 	};
 
-	// React specific way to perform side effects in react components without the need for a class.
+	// React specific way to perform side effects in react components.
 	useEffect(() => {
 
-		// EFF to count the amount of not finished tasks in the task list.
+		/* 
+			EFF to count the amount of not finished tasks in the task list.
+			Needs to be inside of the useEffect because it isn't needed elsewhere.
+		*/
 		const countOpen = () => {
 			const finishedTodos = todos.filter((item) => {
 				return !item.done;
@@ -141,6 +162,7 @@ export const TodoList = () => {
 				</div>
 				<form>
 					<input
+						name="taskName"
 						id="taskName"
 						type="text"
 						placeholder="Neues Todo..."
@@ -148,10 +170,6 @@ export const TodoList = () => {
 							textInput
 						}
 						onChange={changeText}
-					></input>
-					<input
-						id="taskDeadline"
-						type="date"
 					></input>
 					<input type="submit" value="Hinzufügen" onClick={submitTodo}></input>
 				</form>
