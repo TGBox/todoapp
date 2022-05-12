@@ -77,6 +77,32 @@ export const TodoList = () => {
 		setTodos(newTodos);
 	};
 
+	/*
+		EFF to compare two Tasks by their respective done states to sort them.
+		Will result in non-finished tasks being prioritised.
+		- taskA: First Todo.
+		- taskB: Second Todo.
+	*/
+	const compareTasksByDone = (taskA, taskB) => {
+		if ( (taskA.done) && !(taskB.done) ){
+			return 1;
+		  } else if ( !(taskA.done) && (taskB.done) ){
+			return -1;
+		  } else {
+			  return 0;
+		  }
+	};
+
+	/*
+		EFF to sort the task list so that non-finished tasks will be at the front.
+	*/
+	const sortTasksByDone = () => {
+		// Important new!
+		const newTodos = [...todos];
+		newTodos.sort(compareTasksByDone);
+		setTodos(newTodos);
+	};
+
 	// React specific way to perform side effects in react components without the need for a class.
 	useEffect(() => {
 
@@ -97,16 +123,35 @@ export const TodoList = () => {
 	return (
 		<div>
 			<div id="head">
-				<h1>Unsere Todos</h1>
-				<h4>Noch zu erledigen: {openCount}</h4>
+				<div id="title">
+					<h1>Danis React To-Do App</h1>
+					<h4>Noch zu erledigen: {openCount}</h4>
+				</div>
+				<div id="metaButtons">
+					<button 
+						id="removeDone"
+					>Alle fertigen Tasks entfernen</button>
+					<button 
+						id="sortDone"
+						onClick={sortTasksByDone}
+					>Sortieren nach Erledigt</button>
+					<button 
+						id="sortDate"
+					>Sortieren nach Deadline</button>
+				</div>
 				<form>
 					<input
+						id="taskName"
 						type="text"
 						placeholder="Neues Todo..."
 						value={
 							textInput
 						}
 						onChange={changeText}
+					></input>
+					<input
+						id="taskDeadline"
+						type="date"
 					></input>
 					<input type="submit" value="Hinzufügen" onClick={submitTodo}></input>
 				</form>

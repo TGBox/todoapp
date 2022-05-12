@@ -23,9 +23,18 @@ export const Todo = ({ description, done, onChangeTodo, onDeleteTodo, onPriority
 				>
 					{description}
 				</h2>
-				<button onClick={() => { onDeleteTodo(index) }}>Löschen</button>
-				<button onClick={() => { onPriorityChange(index, false) }}>↓</button>
-				<button onClick={() => { onPriorityChange(index, true) }}>↑</button>
+				<button 
+					id="del"
+					onClick={() => { onDeleteTodo(index) }}
+				>Löschen</button>
+				<button 
+					onClick={() => { onPriorityChange(index, false) }}
+					id="down"
+				>↓</button>
+				<button 
+					id="up"
+					onClick={() => { onPriorityChange(index, true) }}
+				>↑</button>
 			</div>
 		</div>
 	);
