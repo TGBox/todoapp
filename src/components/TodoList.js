@@ -118,9 +118,9 @@ export const TodoList = () => {
 	*/
 	const compareTasksByName = (taskA, taskB) => {
 		if (taskA.description < taskB.description){
-			return 1;
-		  } else if (taskA.description > taskB.description){
 			return -1;
+		  } else if (taskA.description > taskB.description){
+			return 1;
 		  } else {
 			  return 0;
 		  }
@@ -184,6 +184,10 @@ export const TodoList = () => {
 					<button 
 						id="sortDate"
 					>Sortieren nach Deadline</button>
+					<button 
+						id="sortName"
+						onClick={sortTasksByDescription}
+					>Alphabetisch Sortieren</button>
 				</div>
 				<form>
 					<input
