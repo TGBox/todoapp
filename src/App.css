@@ -14,7 +14,6 @@ h4 {
   color:rgb(222, 222, 222);
   margin: 2px;
   padding: 2px;
-  font-size: smaller;
 }
 
 body {
@@ -28,6 +27,7 @@ div {
 }
 
 button {
+  font-weight: bold;
   vertical-align: middle;
   padding: 2px;
   margin: 2px;
@@ -52,12 +52,14 @@ button {
 }
 
 input {
+  font-size: large;
   margin: 2px;
   padding: 2px;
   display: flexbox;
 }
 
 input[type=submit] {
+  font-size: large;
   background-color: lightgray;
   cursor: pointer;
 }
