@@ -8,8 +8,9 @@ export const TodoList = () => {
 	// Initializing of the count variable to see the amount of tasks in the list. Default value 0.
 	const [openCount, countOpenTodos] = useState(0);
 
-	// Initializing of the task array with usage of the local storage. If none is existent, initialize empty array.
+	// Initializing of the task array with usage of the local storage. If none is existent, use empty array.
 	const [todos, setTodos] = useState(() => {
+		console.log(localStorage.getItem("items"));
 		const items = localStorage.getItem("items");
 		const parsed = JSON.parse(items);
 		return parsed || [];
@@ -18,24 +19,29 @@ export const TodoList = () => {
 	// Initializing of the text for the text input field. Empty String as default value.
 	const [textInput, setTextInput] = useState("");
 
-	// Equivalent for function to change the text of the input field as soon as a key event is registered.
+	// Equivalent for function (EFF) to change the text of the input field on key event.
 	const changeText = (e) => {
 		setTextInput(e.target.value);
 	};
 
-	// Equivalent for function (EFF) to submit a new task using the String from the input text field.
+	// EFF to submit a new task using the String from the input text field.
 	const submitTodo = (e) => {
 		// Prevents the default page refresh behaviour.
 		e.preventDefault();
-		// Important! Always create new as to not change behaviour at other places.
-		const newTodos = [...todos, { description: textInput, done: false }];
-		setTodos(newTodos);
+		// Prevents adding of empty tasks and of too lenghty tasks.
+		if((textInput !== "") && (textInput.length <= 100)){
+			// Important! Always create new data as to not change behaviour at other places. (Important new!)
+			const newTodos = [...todos, { description: textInput, done: false }];
+			setTodos(newTodos);
+		} else if(textInput.length > 100) {
+			alert("Die maximale Länge eines Todos ist 100 Zeichen.\nBitte versuche es erneut!");
+		}
 		setTextInput("");
 	};
 
 	// EFF for toggeling the done status of the task at the specified index within the task list.
 	const changeTodo = (index) => {
-		// Important! Always create new as to not change behaviour at other places. (Important new!)
+		// Important new!
 		const newTodos = [...todos];
 		if (newTodos[index].done) {
 			newTodos[index].done = false;
@@ -59,6 +65,7 @@ export const TodoList = () => {
 		- raise: Boolean true if it should be raised, false if it needs to be lowered. 
 	*/
 	const changePriority = (index, raise) => {
+		// Important new!
 		const newTodos = [...todos];
 		var task = newTodos[index];
 		newTodos.splice(index, 1);

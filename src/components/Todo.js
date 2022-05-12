@@ -7,7 +7,7 @@ import React from 'react';
 	- onChangeTodo: Reference to the EFF in TodoList that toggles the done state.
 	- onDeleteTodo: Reference to the EFF in TodoList that deletes a single task at the specified index parameter.
 	- onPriorityChange: Reference to the EFF in TodoList that raises or lowers the given task's priority.
-	- index: Int to indicate the position of the task within the task list.
+	- index: Int to indicate the position and priority of the task within the task list.
 */
 export const Todo = ({ description, done, onChangeTodo, onDeleteTodo, onPriorityChange, index }) => {
 
@@ -24,8 +24,8 @@ export const Todo = ({ description, done, onChangeTodo, onDeleteTodo, onPriority
 					{description}
 				</h2>
 				<button onClick={() => { onDeleteTodo(index) }}>Löschen</button>
-				<button onClick={() => { onPriorityChange(index, true) }}>↑</button>
 				<button onClick={() => { onPriorityChange(index, false) }}>↓</button>
+				<button onClick={() => { onPriorityChange(index, true) }}>↑</button>
 			</div>
 		</div>
 	);
