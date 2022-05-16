@@ -8,8 +8,10 @@ import React from 'react';
 	- onDeleteTodo: Reference to the EFF in TodoList that deletes a single task at the specified index parameter.
 	- onPriorityChange: Reference to the EFF in TodoList that raises or lowers the given task's priority.
 	- index: Int to indicate the position and priority of the task within the task list.
+	- deadline: Date String that indicates when this task will be due. Empty String if non-existent.
+	- due: Boolean state to indicate if the task has passed it's deadline already.
 */
-export const Todo = ({ description, done, onChangeTodo, onDeleteTodo, onPriorityChange, index }) => {
+export const Todo = ({ description, done, onChangeTodo, onDeleteTodo, onPriorityChange, index, deadline, due }) => {
 
 	return (
 		<div>
@@ -37,7 +39,7 @@ export const Todo = ({ description, done, onChangeTodo, onDeleteTodo, onPriority
 				>↑</button>
 				<div 
 					id="deadline"
-				></div>
+				>{deadline}</div>
 			</div>
 		</div>
 	);

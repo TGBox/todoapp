@@ -20,9 +20,17 @@ export const TodoList = () => {
 	// Initializing of the text for the text input field. Empty String as default value.
 	const [textInput, setTextInput] = useState("");
 
+	// Initializing the String that is used for the deadline date picker. Empty by default.
+	const [deadlineInput, setDate] = useState("");
+
 	// Equivalent for function (EFF) to change the text of the input field on key event.
 	const changeText = (e) => {
 		setTextInput(e.target.value);
+	};
+
+	// EFF to change the date String that is read from the datepicker.
+	const changeDate = (e) => {
+		setDate(e.target.value);
 	};
 
 	// EFF to submit a new task using the String from the input text field.
@@ -31,15 +39,22 @@ export const TodoList = () => {
 		e.preventDefault();
 		// Prevents adding of empty, too long or duplicate tasks.
 		if((textInput !== "") && (textInput.length <= 100) && (checkForDuplicate(textInput) === -1)){
-			// Important! Always create new data as to not change behaviour at other places. (Important new!)
-			const newTodos = [...todos, { description: textInput, done: false }];
-			setTodos(newTodos);
+			if(deadlineInput === "") {
+				// Important! Always create new data as to not change behaviour at other places. (Important new!)
+				const newTodos = [...todos, { description: textInput, done: false, deadline: "" }];
+				setTodos(newTodos);
+			} else {
+				// Important new!
+				const newTodos = [...todos, { description: textInput, done: false, deadline: deadlineInput}];
+				setTodos(newTodos);
+			}
 		} else if(textInput.length > 100) {
 			alert("Die maximale Länge eines Todos ist 100 Zeichen.\nBitte versuche es erneut!");
 		} else if(checkForDuplicate(textInput) !== -1) {
 			alert("Das Todo steht bereits auf der Liste.\nDaher wurde es nicht hinzugefügt.");
 		}
 		setTextInput("");
+		document.getElementById("date").value = "";
 	};
 
 	// EFF for toggeling the done status of the task at the specified index within the task list.
@@ -128,12 +143,58 @@ export const TodoList = () => {
 	};
 
 	/*
+		EFF to compare two Tasks by their respective deadline Strings.
+		- taskA: First Todo.
+		- taskB: Second Todo.
+	*/
+	const compareTasksByDate = (taskA, taskB) => {	
+		if (taskA.deadline === "" && taskB.deadline !== "") {
+			return 1;
+		} else if (taskB.deadline === "" && taskA.deadline !== "") {
+			return -1;
+		} else {
+			if (taskA.deadline < taskB.deadline){
+				return -1;
+			} else if (taskA.deadline > taskB.deadline){
+				return 1;
+			}
+		}
+		return 0;
+	};
+
+	/*
+		EFF to validate the deadline String against the current date to indicate if it has passed it's deadline.
+	*/
+	const checkForDueDate = (deadline) => {
+		var today = new Date();
+		var dd = String(today.getDate()).padStart(2, '0');
+		var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+		var yyyy = today.getFullYear();
+		today = yyyy + "-" + mm + "-" + dd;
+		if(deadline <= today) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+	/*
 		EFF to sort the task list so that non-finished tasks will be at the front.
 	*/
 	const sortTasksByDone = () => {
 		// Important new!
 		const newTodos = [...todos];
 		newTodos.sort(compareTasksByDone);
+		setTodos(newTodos);
+	};
+
+	/*
+		EFF to sort the task list so that the most urgent tasks will be at the front.
+	*/
+	const sortTasksByDate = () => {
+		// Important new!
+		const newTodos = [...todos];
+		newTodos.sort(compareTasksByDate);
 		setTodos(newTodos);
 	};
 
@@ -197,6 +258,7 @@ export const TodoList = () => {
 					>Sortieren nach Erledigt</button>
 					<button 
 						id="sortDate"
+						onClick={sortTasksByDate}
 					>Sortieren nach Deadline</button>
 					<button 
 						id="sortName"
@@ -214,8 +276,16 @@ export const TodoList = () => {
 						}
 						onChange={changeText}
 					></input>
-					<input type="date" id="date"></input>
-					<input type="submit" value="Hinzufügen" onClick={submitTodo}></input>
+					<input 
+						type="date" 
+						id="date"
+						onChange={changeDate}
+					></input>
+					<input 
+						type="submit" 
+						value="Hinzufügen" 
+						onClick={submitTodo}
+					></input>
 				</form>
 			</div>
 
@@ -224,6 +294,8 @@ export const TodoList = () => {
 					<Todo
 						description={item.description}
 						done={item.done}
+						deadline={item.deadline}
+						due={checkForDueDate(item.deadline)}
 						key={index}
 						index={index}
 						onChangeTodo={changeTodo}
