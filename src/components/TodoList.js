@@ -245,7 +245,7 @@ export const TodoList = () => {
 			<div id="head">
 				<div id="title">
 					<h1>Danis React To-Do App</h1>
-					<h4>Noch zu erledigen: {openCount}</h4>
+					<h4>{openCount !== 0 ? "Noch zu erledigen: " + openCount : "Keine offenen Tasks mehr!"}</h4>
 				</div>
 				<div id="metaButtons">
 					<button 
