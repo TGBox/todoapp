@@ -85,7 +85,14 @@ input[type=submit] {
   height: 30px;
 }
 
-#deadline {
+#deadlineDue {
+  font-weight: bold;
+  float: right;
+  border-style: solid;
+  background-color: red;
+}
+
+#deadlineOpen {
   font-weight: bold;
   float: right;
 }
