@@ -96,9 +96,3 @@ input[type=submit] {
   font-weight: bold;
   float: right;
 }
-
-#img {
-  float: right;
-  background-image: url('Due.png');
-  display: none;
-}
