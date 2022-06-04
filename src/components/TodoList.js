@@ -220,6 +220,18 @@ export const TodoList = () => {
 		setTodos(justUnfinishedTodos);
 	};
 
+	// Will get triggered when all tasks should be removed. Prompts user to confirm his choice. 
+	const removeAllTasks = () => {
+		if(openCount !== 0) {
+			if(window.confirm("Wollen Sie wirklich alle Tasks entfernen?\nEs befinden sich noch " + openCount + 
+				" unerledigte Tasks in der Liste.\n\nAktion kann nicht rückgängig gemacht werden!")) {
+				setTodos([]);
+			}
+		} else {
+			alert("Keine Tasks zum Löschen vorhanden!");
+		}
+	};
+
 	// React specific way to perform side effects in react components.
 	useEffect(() => {
 
@@ -248,6 +260,10 @@ export const TodoList = () => {
 					<h4>{openCount !== 0 ? "Noch zu erledigen: " + openCount : "Keine offenen Tasks mehr!"}</h4>
 				</div>
 				<div id="metaButtons">
+					<button 
+						id="removeAll"
+						onClick={removeAllTasks}
+					>Alle Tasks entfernen</button>
 					<button 
 						id="removeDone"
 						onClick={removeFinishedTasks}

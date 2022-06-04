@@ -1,19 +1,13 @@
-h1 {
-  margin: 2px;
-  padding: 2px;
+h1, h4 {
+  margin: 0.1rem;
+  padding: 0.1rem;
 }
 
 h2 {
   float: left;
-  padding: 2px;
-  margin: 2px;
+  padding: 0.1rem;
+  margin: 0.1rem;
   cursor: pointer;
-}
-
-h4 {
-  color:rgb(222, 222, 222);
-  margin: 2px;
-  padding: 2px;
 }
 
 body {
@@ -22,77 +16,122 @@ body {
 
 div {
   display: flow-root;
-  margin: 2px;
-  padding: 2px;
+  margin: 0.1rem;
+  padding: 0.1rem;
 }
 
 button {
   font-weight: bold;
   vertical-align: middle;
-  padding: 2px;
-  margin: 2px;
+  padding: 0.2rem;
+  margin: 0.2rem;
   float: inline-end;
   cursor: pointer;
+  border-radius: 0.6rem;
 }
 
 #closed {
   background-color: rgb(160, 0, 0);
   color: rgb(182, 182, 182);
+  border-radius: 1rem;
+  padding: 0.5rem;
 }
 
 #open {
   background-color: rgb(0, 133, 0);
   color: white;
+  border-radius: 1rem;
+  padding: 0.5rem;
 }
 
 #head {
   text-align: center;
   background-color: darkslategray;
   color: white;
+  border-radius: 2rem;
 }
 
 input {
   font-size: large;
-  margin: 2px;
-  padding: 2px;
+  margin: 0.1rem;
+  padding: 0.1rem;
   display: flexbox;
 }
 
 input[type=submit] {
   font-size: large;
-  background-color: lightgray;
+  background-color: rgb(0, 116, 6);
+  color: white;
+  border:none;
   cursor: pointer;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+  margin: 0.2rem;
 }
 
 #removeDone {
-  height: 30px;
+  height: 2rem;
   float: right;
+  background-color: rgb(193, 175, 236);
+  border-radius: 0.5rem;
+  padding: 0.7rem;
+  margin: 0.3rem;
+  line-height: 0.7rem;
+  border: none;
+}
+
+#removeAll {
+  height: 2rem;
+  float: right;
+  background-color: rgb(251, 21, 0);
+  color:white;
+  border-radius: 0.5rem;
+  padding: 0.7rem;
+  margin: 0.3rem;
+  line-height: 0.7rem;
+  border: none;
 }
 
 #sortDone, #sortDate, #sortName {
-  height: 30px;
+  height: 2rem;
   float: left;
+  background-color: rgb(193, 175, 236);
+  border-radius: 0.5rem;
+  padding: 0.7rem;
+  margin: 0.3rem;
+  line-height: 0.7rem;
+  border: none;
 }
 
 #up, #down {
-  margin: 2px;
-  padding: 2px;
-  width: 20px;
-  height: 30px;
+  margin: 0.1rem;
+  padding: 0.1rem;
+  width: 2rem;
+  height: 2rem;
+  border: none;
 }
 
 #del {
-  height: 30px;
+  height: 2rem;
+  width: 5rem;
+  margin: 0.1rem;
+  padding: 0.1rem;
+  background-color: rgb(105, 0, 0);
+  color: white;
+  border: none;
 }
 
 #deadlineDue {
   font-weight: bold;
   float: right;
-  border-style: solid;
-  background-color: red;
+  border-style: none;
+  border-radius: 0.5rem;
+  background-color: rgb(160, 0, 0);
+  padding: 0.4rem;
 }
 
 #deadlineOpen {
   font-weight: bold;
   float: right;
+  padding: 0.4rem;
 }
