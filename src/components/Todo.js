@@ -38,6 +38,7 @@ export const Todo = ({ description, done, onChangeTodo, onDeleteTodo, onPriority
 					onClick={() => { onPriorityChange(index, true) }}
 				>↑</button>
 				<div 
+					data-testid="deadlineDiv"
 					id={due ? "deadlineDue" : "deadlineOpen"}
 				>{deadline}</div>
 			</div>

@@ -11,7 +11,6 @@ export const TodoList = () => {
 
 	// Initializing of the task array with usage of the local storage. If none is existent, use empty array.
 	const [todos, setTodos] = useState(() => {
-		console.log(localStorage.getItem("items"));
 		const items = localStorage.getItem("items");
 		const parsed = JSON.parse(items);
 		return parsed || [];
@@ -251,7 +250,7 @@ export const TodoList = () => {
 		localStorage.setItem("items", JSON.stringify(todos));
 	}, [todos]);
 
-	// Important! React always expects a return of a singular div HTML item.
+	// Important! React always expects a return of a singular HTML item.
 	return (
 		<div>
 			<div id="head">
@@ -283,6 +282,7 @@ export const TodoList = () => {
 				</div>
 				<form>
 					<input
+						data-testid="taskNameInput"
 						name="taskName"
 						id="taskName"
 						type="text"
@@ -293,11 +293,13 @@ export const TodoList = () => {
 						onChange={changeText}
 					></input>
 					<input 
+						data-testid={"dateInput"}
 						type="date" 
 						id="date"
 						onChange={changeDate}
 					></input>
 					<input 
+						data-testid={"submitButton"}
 						type="submit" 
 						value="Hinzufügen" 
 						onClick={submitTodo}
