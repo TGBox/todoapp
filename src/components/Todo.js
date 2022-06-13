@@ -15,9 +15,12 @@ export const Todo = ({ description, done, onChangeTodo, onDeleteTodo, onPriority
 
 	return (
 		<div>
-			<div id={
-				done ? "closed" : "open"
-			}>
+			<div 
+				id={
+					done ? "closed" : "open"
+				}
+				data-testid="descriptionDiv"
+			>
 				<h2
 					onClick={() => {
 						onChangeTodo(index);

@@ -264,6 +264,7 @@ export const TodoList = () => {
 						onClick={removeAllTasks}
 					>Alle Tasks entfernen</button>
 					<button 
+						data-testid="removeDone"
 						id="removeDone"
 						onClick={removeFinishedTasks}
 					>Alle fertigen Tasks entfernen</button>
