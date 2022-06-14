@@ -80,6 +80,25 @@ const removeAllTasks = () => {
   fireEvent.click(removeAllButton);
 };
 
+// Helper method to simulate a click on the sort by name button via user input.
+const sortTasksByName = () => {
+  const sortByNameButton = screen.getByTestId("sortName");
+  fireEvent.click(sortByNameButton);
+};
+
+// Helper method to simulate a click on the sort by done button via user input.
+const sortTasksByDone = () => {
+  const sortByDoneButton = screen.getByTestId("sortDone");
+  fireEvent.click(sortByDoneButton);
+};
+
+
+// Helper method to simulate a click on the sort by deadline button via user input.
+const sortTasksByDate = () => {
+  const sortByDateButton = screen.getByTestId("sortDate");
+  fireEvent.click(sortByDateButton);
+};
+
 test("Input of a single task via user interaction. Check if it gets displayed.", () => {
   render(
     <MockTodoList />,
@@ -103,7 +122,7 @@ test("Input of multiple tasks via user interaction. Check if all of them get dis
   expect(divElements.length).toBe(3);
 });
 
-test("Input of multiple tasks with the same name via user interaction.\nCheck for only one being accepted.", () => {
+test("Input of multiple tasks with the same name via user interaction. Check for only one being accepted.", () => {
   render(
     <MockTodoList />,
     container
@@ -113,7 +132,7 @@ test("Input of multiple tasks with the same name via user interaction.\nCheck fo
   expect(divElements.length).toBe(1);
 });
 
-test("Input of multiple tasks with the same name via user interaction.\nCheck for matching alert.", async () => {
+test("Input of multiple tasks with the same name via user interaction. Check for matching alert.", async () => {
   render(
     <MockTodoList />,
     container
@@ -123,7 +142,7 @@ test("Input of multiple tasks with the same name via user interaction.\nCheck fo
   expect(alertSpy).toHaveBeenCalledWith("Das Todo steht bereits auf der Liste.\nDaher wurde es nicht hinzugefügt.");
 });
 
-test("Input of single task with description that surpasses the limit.\nCheck for matching alert.", async () => {
+test("Input of single task with description that surpasses the limit. Check for matching alert.", async () => {
   render(
     <MockTodoList />,
     container
@@ -133,7 +152,7 @@ test("Input of single task with description that surpasses the limit.\nCheck for
   expect(alertSpy).toHaveBeenCalledWith("Die maximale Länge eines Todos ist 100 Zeichen.\nBitte versuche es erneut!");
 });
 
-test("Input of a single task with a deadline via user interaction.\nCheck if it gets displayed.", () => {
+test("Input of a single task with a deadline via user interaction. Check if it gets displayed.", () => {
   render(
     <MockTodoList />,
     container
@@ -194,3 +213,60 @@ test("Check if all tasks can be removed at once via user input.", async () => {
   expect(amountAfter).toBe(0);
 });
 
+test("Check if sorting tasks by name via user input is working correctly.", () => {
+  render(
+    <MockTodoList />,
+    container
+  );
+  addTask(["Lernen", "Backen", "Trainieren", "Abspülen"]);
+  sortTasksByName();
+  let tasks = screen.queryAllByTestId("descriptionHeading");
+  const length = tasks.length;
+  expect(length).toBe(4);
+  expect(tasks[0]).toHaveTextContent("Abspülen");
+  expect(tasks[1]).toHaveTextContent("Backen");
+  expect(tasks[2]).toHaveTextContent("Lernen");
+  expect(tasks[3]).toHaveTextContent("Trainieren");
+});
+
+test("Check if sorting tasks by date via user input is working correctly.", async () => {
+  render(
+    <MockTodoList />,
+    container
+  );
+  window.confirm = jest.fn(() => true);
+  removeAllTasks();
+  addTaskWithDeadline("Task 1", "2023-06-06");
+  addTaskWithDeadline("Task 2", "2022-01-01");
+  addTaskWithDeadline("Task 3", "2022-12-12");
+  addTaskWithDeadline("Task 4", "2021-01-01");
+  sortTasksByDate();
+  let tasks = screen.queryAllByTestId("descriptionHeading");
+  const length = tasks.length;
+  expect(length).toBe(4);
+  expect(tasks[0]).toHaveTextContent("Task 4");
+  expect(tasks[1]).toHaveTextContent("Task 2");
+  expect(tasks[2]).toHaveTextContent("Task 3");
+  expect(tasks[3]).toHaveTextContent("Task 1");
+});
+
+test("Check if sorting tasks by done state via user input is working correctly.", () => {
+  render(
+    <MockTodoList />,
+    container
+  );
+  window.confirm = jest.fn(() => true);
+  removeAllTasks();
+  addTask(["Task 1", "Task 2", "Task 3", "Task 4"]);
+  let tasks = screen.queryAllByTestId("descriptionHeading");
+  let length = tasks.length;
+  expect(length).toBe(4);
+  toggleTaskDoneState("Task 1");
+  toggleTaskDoneState("Task 3");
+  sortTasksByDone();
+  tasks = screen.queryAllByTestId("descriptionHeading");
+  expect(tasks[0]).toHaveTextContent("Task 2");
+  expect(tasks[1]).toHaveTextContent("Task 4");
+  expect(tasks[2]).toHaveTextContent("Task 1");
+  expect(tasks[3]).toHaveTextContent("Task 3");
+});

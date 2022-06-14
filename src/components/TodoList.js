@@ -270,14 +270,17 @@ export const TodoList = () => {
 						onClick={removeFinishedTasks}
 					>Alle fertigen Tasks entfernen</button>
 					<button 
+						data-testid="sortDone"
 						id="sortDone"
 						onClick={sortTasksByDone}
 					>Sortieren nach Erledigt</button>
 					<button 
+						data-testid="sortDate"
 						id="sortDate"
 						onClick={sortTasksByDate}
 					>Sortieren nach Deadline</button>
 					<button 
+						data-testid="sortName"
 						id="sortName"
 						onClick={sortTasksByDescription}
 					>Alphabetisch Sortieren</button>
