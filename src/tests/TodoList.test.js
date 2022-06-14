@@ -5,14 +5,31 @@ import { TodoList } from "../components/TodoList";
 import { unmountComponentAtNode } from "react-dom";
 
 let container = null;
+let confirmSpy = null;
+let alertConfirmSpy = null;
+
+// Will automatically confirm any confirm and alert windows that pop up during testing.
+beforeAll(() => {
+  confirmSpy = jest.spyOn(window, "confirm");
+  confirmSpy.mockImplementation(jest.fn(() => true));
+  alertConfirmSpy = jest.spyOn(window, "alert");
+  alertConfirmSpy.mockImplementation(jest.fn(() => true));
+});
+
+// Will reset the confirmSpy and alertConfirmSpy to avoid unwanted side effects.
+afterAll(() => {
+  confirmSpy.mockRestore()
+  alertConfirmSpy.mockRestore();
+});
+
+// Will generate the container DOM element to enable isolated tests.
 beforeEach(() => {
-  // Setup of a DOM element as a render target.
   container = document.createElement("div");
   document.body.appendChild(container);
 });
 
+// Will remove and reset the container for the next test to avoid leaky behaviour.
 afterEach(() => {
-  // Cleanup on exiting after every test to avoid leaky behaviour.
   unmountComponentAtNode(container);
   container.remove();
   container = null;
@@ -47,14 +64,20 @@ const addTaskWithDeadline = (task, deadline) => {
 
 // Helper method to simulate the toggle of a specified task via user input.
 const toggleTaskDoneState = (taskName) => {
-  const taskDiv = screen.getByText(taskName);
-  fireEvent.mouseDown(taskDiv);
+  const taskHeading = screen.getByText(taskName);
+  fireEvent.click(taskHeading);
 };
 
 // Helper method to simulate a click on the remove done button via user input.
 const removeAllDoneTasks = () => {
   const removeAllDoneButton = screen.getByTestId("removeDone");
   fireEvent.click(removeAllDoneButton);
+};
+
+// Helper method to simulate a click on the remove all button via user input.
+const removeAllTasks = () => {
+  const removeAllButton = screen.getByText("Alle Tasks entfernen");
+  fireEvent.click(removeAllButton);
 };
 
 test("Input of a single task via user interaction. Check if it gets displayed.", () => {
@@ -131,10 +154,8 @@ test("Check if tasks can be toggled via user click as intended.", () => {
   const divDescriptionElement = screen.getByText(/fußball/i);
   expect(divDescriptionElement).toBeInTheDocument();
   toggleTaskDoneState("Fußball");
+  expect(divDescriptionElement).toBeInTheDocument();
 });
-/*
-
-TODO: Figure out, why this test fails. (Has to depend on one of the two used helper functions.)
 
 test("Check if all done tasks get removed when the remove done button gets pressed.", () => {
   render(
@@ -157,4 +178,19 @@ test("Check if all done tasks get removed when the remove done button gets press
   const amountAfter = tasks.length;
   expect(amountBefore).toBeGreaterThan(amountAfter);
 });
-*/
+
+test("Check if all tasks can be removed at once via user input.", async () => {
+  render(
+    <MockTodoList />,
+    container
+  );
+  window.confirm = jest.fn(() => true);
+  let tasksBefore = screen.queryAllByTestId("descriptionDiv");
+  const amountBefore = tasksBefore.length;
+  removeAllTasks();
+  let tasksAfter = screen.queryAllByTestId("descriptionDiv");
+  const amountAfter = tasksAfter.length;
+  expect(amountBefore).toBeGreaterThan(amountAfter);
+  expect(amountAfter).toBe(0);
+});
+

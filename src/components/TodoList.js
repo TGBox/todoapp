@@ -260,6 +260,7 @@ export const TodoList = () => {
 				</div>
 				<div id="metaButtons">
 					<button 
+						data-testid="removeAll"
 						id="removeAll"
 						onClick={removeAllTasks}
 					>Alle Tasks entfernen</button>

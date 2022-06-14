@@ -25,6 +25,7 @@ export const Todo = ({ description, done, onChangeTodo, onDeleteTodo, onPriority
 					onClick={() => {
 						onChangeTodo(index);
 					}}
+					data-testid="descriptionHeading"
 				>
 					{description}
 				</h2>
